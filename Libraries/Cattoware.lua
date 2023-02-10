@@ -1851,7 +1851,7 @@ function library:CreateWindow(name, size, hidebutton)
                     toggle:Set(not toggle.CheckedFrame.Visible)
                 end)
                 toggle.Label.InputBegan:Connect(function(input)
-                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
                         toggle:Set(not toggle.CheckedFrame.Visible)
                     end
                 end)
