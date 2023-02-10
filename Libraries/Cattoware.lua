@@ -1818,26 +1818,26 @@ function library:CreateWindow(name, size, hidebutton)
                     end)
     
                     slider.SlideBar.InputEnded:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             dragging = false
                         end
                     end)
     
                     slider.Main.InputBegan:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             dragging = true
                             slider:Refresh()
                         end
                     end)
     
                     slider.Main.InputEnded:Connect(function(input)
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
                             dragging = false
                         end
                     end)
     
                     uis.InputChanged:Connect(function(input)
-                        if dragging then
+                        if dragging and input.UserInputType == Enun.UserInputType.MouseMovement then
                             slider:Refresh()
                         end
                     end)
