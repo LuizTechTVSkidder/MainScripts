@@ -5,7 +5,7 @@
 ## Source Documentation
 
 ```lua
-local obfuscator = loadstring(game:HttpGet("https://raw.githubusercontent.com/GhostDuckyy/RBXLuaObfuscator/main/source.lua"))()
+local obfuscator = loadstring(game:HttpGet("https://raw.githubusercontent.com/LuizTechTVSkidder/MainScripts/main/Obfuscator/source.lua"))()
 
 obfuscator(
  [===[
