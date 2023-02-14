@@ -1,3 +1,4 @@
+-- credits init for re-uploading venyx ui lib
 repeat wait() until game:IsLoaded()
 
 if syn then
@@ -131,6 +132,7 @@ local mouse = player:GetMouse()
 
 -- services
 local input = game:GetService("UserInputService")
+local uis = game:GetService("UserInputService")
 local run = game:GetService("RunService")
 local tween = game:GetService("TweenService")
 local tweeninfo = TweenInfo.new
@@ -245,7 +247,7 @@ do
 		end)
 		
 		input.InputEnded:Connect(function(key)
-			if key.UserInputType == Enum.UserInputType.MouseButton1 or key.UserInputType == Enum.UserInputType.Touch then
+			if key.UserInputType == Enum.UserInputType.MouseButton1 then
 				for i, callback in pairs(self.ended) do
 					callback()
 				end
@@ -1553,13 +1555,16 @@ do
 			draggingColor = true
 			
 			while draggingColor do
-			
-				hue = 1 - math.clamp(1 - ((mouse.X - colorPosition.X) / colorSize.X), 0, 1)
+
+			    uis.TouchMoved:connect(function(touch, gameProcessedEvent)
+				hue = 1 - math.clamp(1 - ((touch.X - colorPosition.X) / colorSize.X), 0, 1)
 				color3 = Color3.fromHSV(hue, sat, brightness)
 				
+				end)
 				for i, prop in pairs({"r", "g", "b"}) do
 					rgb[prop] = color3[prop:upper()] * 255
 				end
+				
 				
 				local x = hue -- hue is updated
 				self:updateColorPicker(colorpicker, nil, {hue, sat, brightness}) -- roblox is literally retarded
@@ -1766,34 +1771,13 @@ do
 		
 		self:updateSlider(slider, nil, value, min, max)
 		
-		slider.InputEnded:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		utility:DraggingEnded(function()
 			dragging = false
-		end
 		end)
-		
-		
 
-		slider.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		slider.MouseButton1Down:Connect(function(input)
 			dragging = true
-	end
-end)
-
-    utility.InputEnded:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = false
-		end
-		end)
-		
-		
-
-		utility.InputBegan:Connect(function(input)
-	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-	end
-end)
-
+			
 			while dragging do
 				utility:Tween(circle, {ImageTransparency = 0}, 0.1)
 				
@@ -1805,6 +1789,7 @@ end)
 			
 			wait(0.5)
 			utility:Tween(circle, {ImageTransparency = 1}, 0.2)
+		end)
 		
 		textbox.FocusLost:Connect(function()
 			if not tonumber(textbox.Text) then
@@ -2217,7 +2202,8 @@ end)
 		end
 		
 		local bar = slider.Slider.Bar
-		local percent = (mouse.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X
+		uis.TouchMoved:connect(function(touch, gameProcessedEvent)
+		local percent = (touch.X - bar.AbsolutePosition.X) / bar.AbsoluteSize.X
 		
 		if value then -- support negative ranges
 			percent = (value - min) / (max - min)
@@ -2234,8 +2220,8 @@ end)
 		end
 		
 		return value
+ end)
 	end
-	
 	function section:updateDropdown(dropdown, title, list, callback)
 		dropdown = self:getModule(dropdown)
 		
@@ -2310,10 +2296,8 @@ end)
 		else
 			frame.CanvasSize = UDim2.new(0, 0, 0, 0)
 			frame.ScrollBarImageTransparency = 1
-		end
-	end
-end
+		  end
+	  end
+  end
 
 return library
-
-
