@@ -272,17 +272,6 @@ do
 		}
 	end
 	
-	function utility:KeyPressed() -- yield until next key is pressed
-		local key = input.InputBegan:Wait()
-		
-		while key.UserInputType ~= Enum.UserInputType.Keyboard	 do
-			key = input.InputBegan:Wait()
-		end
-		
-		wait() -- overlapping connection
-		
-		return key
-	end
 	
 	function utility:DraggingEnabled(frame, parent)
 	
@@ -1554,7 +1543,7 @@ do
 		color.MouseButton1Down:Connect(function()
 			draggingColor = true
 			
-			while draggingColor do
+			if draggingColor then
 
 			    uis.TouchMoved:connect(function(touch, gameProcessedEvent)
 				hue = 1 - math.clamp(1 - ((touch.X - colorPosition.X) / colorSize.X), 0, 1)
@@ -1778,7 +1767,7 @@ do
 		slider.MouseButton1Down:Connect(function(input)
 			dragging = true
 			
-			while dragging do
+			if dragging then
 				utility:Tween(circle, {ImageTransparency = 0}, 0.1)
 				
 				value = self:updateSlider(slider, nil, nil, min, max, value)
