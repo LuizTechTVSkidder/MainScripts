@@ -5,6 +5,7 @@
 		Dino
 		Magik Manz
 		Luzu
+                LuizTechTV
 --]]
 
 local UI
